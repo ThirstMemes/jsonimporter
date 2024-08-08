@@ -11,7 +11,7 @@ import com.scuffed.jsonimporter.repository.PositionRepository;
 public class PositionConfig {
 	
 	@Bean
-	CommandLineRunner commandLineRunner(PositionRepository repository) {
+	CommandLineRunner positionCLR(PositionRepository repository) {
 		return args -> {
 			Position[] positions = new Position[] {
 					new Position(1, "Vergoldete Krücken"),
