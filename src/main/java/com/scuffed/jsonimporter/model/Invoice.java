@@ -44,6 +44,7 @@ public class Invoice {
 	private String customerTrackingNumber;
 	
 	@NotNull
+	@ManyToOne
 	private InvoiceStatus status;
 	
 	@CreatedDate
