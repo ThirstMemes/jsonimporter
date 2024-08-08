@@ -1,6 +1,6 @@
 package com.scuffed.jsonimporter.model;
 
-import com.scuffed.jsonimporter.model.enums.PermissionType;
+import com.scuffed.jsonimporter.model.enums.PatientPermissionTypeEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,20 +29,20 @@ public class PatientPermission {
 	@NotBlank
 	private String patientPermissionNumber;
 	
-	private PermissionType permissionType;
+	private PatientPermissionTypeEnum patientPermissionTypeEnum;
 	
 	public PatientPermission() {
 	}
 	
-	public PatientPermission(final String patientPermissionNumber, final PermissionType permissionType) {
+	public PatientPermission(final String patientPermissionNumber, final PatientPermissionTypeEnum patientPermissionTypeEnum) {
 		this.patientPermissionNumber = patientPermissionNumber;
-		this.permissionType = permissionType;
+		this.patientPermissionTypeEnum = patientPermissionTypeEnum;
 	}
 	
-	public PatientPermission(final Long id, final String patientPermissionNumber, final PermissionType permissionType) {
+	public PatientPermission(final Long id, final String patientPermissionNumber, final PatientPermissionTypeEnum patientPermissionTypeEnum) {
 		this.id = id;
 		this.patientPermissionNumber = patientPermissionNumber;
-		this.permissionType = permissionType;
+		this.patientPermissionTypeEnum = patientPermissionTypeEnum;
 	}
 	
 	public Long getId() {
@@ -61,19 +61,19 @@ public class PatientPermission {
 		this.patientPermissionNumber = patientPermissionNumber;
 	}
 	
-	public PermissionType getPermissionType() {
-		return permissionType;
+	public PatientPermissionTypeEnum getPermissionType() {
+		return patientPermissionTypeEnum;
 	}
 	
-	public void setPermissionType(final PermissionType permissionType) {
-		this.permissionType = permissionType;
+	public void setPermissionType(final PatientPermissionTypeEnum patientPermissionTypeEnum) {
+		this.patientPermissionTypeEnum = patientPermissionTypeEnum;
 	}
 	
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("PatientPermission{");
 		sb.append("permissionIdentifier='").append(patientPermissionNumber).append('\'');
-		sb.append(", permissionsType=").append(permissionType);
+		sb.append(", permissionsType=").append(patientPermissionTypeEnum);
 		sb.append('}');
 		return sb.toString();
 	}

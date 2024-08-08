@@ -20,7 +20,7 @@ public final class PatientPermissionConverter {
 	
 	public static PatientPermission toEntity(PatientPermissionDTO dto) {
 		return new PatientPermission(dto.patientPermissionNumber(),
-									 dto.permissionType());
+									 dto.patientPermissionTypeEnum());
 	}
 	
 	public static List<PatientPermission> toEntities(Collection<PatientPermissionDTO> dtos) {
