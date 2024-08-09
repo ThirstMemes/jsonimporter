@@ -1,9 +1,11 @@
 package com.scuffed.jsonimporter.model;
 
+import com.scuffed.jsonimporter.model.constant.IdConstants;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -42,6 +44,16 @@ public class BillingReceipt {
 		this.id = id;
 		this.caseId = caseId;
 		this.billingReceiptNumber = billingReceiptNumber;
+	}
+	
+	@PostPersist
+	private void generateBillingReceiptNumberAndCaseId() {
+		if(billingReceiptNumber == null || billingReceiptNumber.isBlank()) {
+			billingReceiptNumber = "ABG-" + (IdConstants.BASE + id * IdConstants.PROCESS_RESERVE + 2);
+		}
+		if(caseId == null || caseId.isBlank()) {
+			caseId = "C-" + (IdConstants.BASE + id * IdConstants.PROCESS_RESERVE + 3);
+		}
 	}
 	
 	public String getBillingReceiptNumber() {
