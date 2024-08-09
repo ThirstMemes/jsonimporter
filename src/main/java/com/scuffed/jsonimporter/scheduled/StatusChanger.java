@@ -20,18 +20,17 @@ public class StatusChanger {
 	
 	private final InvoiceRepository invoiceRepository;
 	private final InvoiceStatusRepository statusRepository;
-	private final List<InvoiceStatus> statuses;
 	
 	@Autowired
 	public StatusChanger(InvoiceRepository invoiceRepository, InvoiceStatusRepository statusRepository) {
 		this.invoiceRepository = invoiceRepository;
 		this.statusRepository = statusRepository;
-		statuses = this.statusRepository.findAll();
 	}
 	
-	@Scheduled(fixedRate = 30, initialDelay = 10, timeUnit = TimeUnit.SECONDS)
+	@Scheduled(fixedRate = 10, initialDelay = 10, timeUnit = TimeUnit.SECONDS)
 	public void runStatusChanger() {
 		List<Invoice> invoices = invoiceRepository.findAll();
+		List<InvoiceStatus> statuses = this.statusRepository.findAll();
 		invoices.forEach(e -> e.setStatus(statuses.get(ThreadLocalRandom.current().nextInt(statuses.size()))));
 		if(!invoices.isEmpty()) {
 			invoiceRepository.saveAll(invoices);
