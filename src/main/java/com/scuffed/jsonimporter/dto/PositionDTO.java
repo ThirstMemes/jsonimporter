@@ -2,4 +2,4 @@ package com.scuffed.jsonimporter.dto;
 
 import java.math.BigDecimal;
 
-public record PositionDTO(Integer positionNumber, String description, BigDecimal positionPrice) {}
+public record PositionDTO(Long positionNumber, String description, BigDecimal positionPrice) {}

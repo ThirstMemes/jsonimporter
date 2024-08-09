@@ -2,6 +2,7 @@ package com.scuffed.jsonimporter.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.scuffed.jsonimporter.model.constant.IdConstants;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -33,7 +35,7 @@ public class Position {
 	private Long id;
 	
 	@NotNull
-	private Integer positionNumber;
+	private Long positionNumber;
 	
 	@NotBlank
 	private String description;
@@ -48,15 +50,19 @@ public class Position {
 	public Position() {
 	}
 	
-	public Position(final Integer positionNumber, final String description) {
+	public Position(final String description) {
 		this.description = description;
-		this.positionNumber = positionNumber;
 	}
 	
-	public Position(final Long id, final Integer positionNumber, final String description) {
+	public Position(final Long id, final Long positionNumber, final String description) {
 		this.description = description;
 		this.id = id;
 		this.positionNumber = positionNumber;
+	}
+	
+	@PostPersist
+	private void generatePositionNumber() {
+		positionNumber = IdConstants.BASE + id * IdConstants.PROCESS_RESERVE + 4;
 	}
 	
 	public void addPositionPrice(PositionPrice positionPrice) {
@@ -79,11 +85,11 @@ public class Position {
 		this.id = id;
 	}
 	
-	public @NotNull Integer getPositionNumber() {
+	public @NotNull Long getPositionNumber() {
 		return positionNumber;
 	}
 	
-	public void setPositionNumber(final @NotNull Integer positionNumber) {
+	public void setPositionNumber(final @NotNull Long positionNumber) {
 		this.positionNumber = positionNumber;
 	}
 	

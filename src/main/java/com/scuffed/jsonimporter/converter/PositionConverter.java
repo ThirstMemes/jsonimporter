@@ -21,7 +21,7 @@ public final class PositionConverter {
 	}
 	
 	public static Position toEntity(PositionDTO dto) {
-		return new Position(dto.positionNumber(), dto.description());
+		return new Position(dto.description());
 	}
 	
 	public static List<Position> toEntities(Collection<PositionDTO> dtos) {

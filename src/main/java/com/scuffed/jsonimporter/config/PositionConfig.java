@@ -14,11 +14,11 @@ public class PositionConfig {
 	CommandLineRunner positionCLR(PositionRepository repository) {
 		return args -> {
 			Position[] positions = new Position[] {
-					new Position(1, "Vergoldete Krücken"),
-					new Position( 2, "Döner" ),
-					new Position(3, "Racing Rollstuhl")
+					new Position("Vergoldete Krücken"),
+					new Position("Döner" ),
+					new Position("Racing Rollstuhl")
 			};
-			repository.saveAll(List.of(positions));
+			repository.saveAll(repository.saveAll(List.of(positions)));
 		};
 	}
 }
