@@ -67,6 +67,12 @@ public class Position {
 	
 	public void addPositionPrice(PositionPrice positionPrice) {
 		positionPrices.add(positionPrice);
+		positionPrice.setPosition(this);
+	}
+	
+	public void removePositionPrice(PositionPrice positionPrice) {
+		positionPrices.remove(positionPrice);
+		positionPrice.setPosition(null);
 	}
 	
 	public @NotBlank String getDescription() {
