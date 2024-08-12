@@ -1,6 +1,7 @@
 package com.scuffed.jsonimporter.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scuffed.jsonimporter.converter.InvoiceConverter;
@@ -39,6 +40,11 @@ public class InvoiceService {
 		return InvoiceConverter.toDTOs(invoiceRepository.findAll());
 	}
 	
+	public Optional<Invoice> checkStatus(Long id) {
+		return invoiceRepository.findById(id);
+	}
+	
+	//TODO 09.08.2024: Zuende implementieren
 	public InvoiceDTO insertInvoice(InvoiceDTO dto) {
 		Invoice entity = InvoiceConverter.toEntity(dto);
 		Patient patient = entity.getPatient();
@@ -47,6 +53,7 @@ public class InvoiceService {
 		patientPermissionRepository.findFirstByPatientPermissionNumber(entity.getPatientPermission().getPatientPermissionNumber()).ifPresent(entity::setPatientPermission);
 		patientRepository.findFirstPatientByFirstnameAndSurnameAndInsuranceNumber(patient.getFirstname(), patient.getSurname(), patient.getInsuranceNumber()).ifPresent(entity::setPatient);
 		// positionRepository
-		return InvoiceConverter.toDTO(invoiceRepository.save(InvoiceConverter.toEntity(dto)));
+		Invoice persistedEntity = invoiceRepository.save(InvoiceConverter.toEntity(dto));
+		return InvoiceConverter.toDTO(invoiceRepository.save(persistedEntity));
 	}
 }

@@ -35,6 +35,7 @@ public class StatusChanger {
 		if(!invoices.isEmpty()) {
 			invoiceRepository.saveAll(invoices);
 		}
+		//TODO: Durch Logger ersetzen.
 		System.out.printf("[%s-%s-%s %s:%s:%s] %s [%s]: %s",
 						  LocalDateTime.now().getYear(),
 						  LocalDateTime.now().getMonthValue(),
