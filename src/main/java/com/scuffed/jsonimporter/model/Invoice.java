@@ -3,6 +3,7 @@ package com.scuffed.jsonimporter.model;
 import java.time.LocalDate;
 import java.util.Set;
 import org.springframework.data.annotation.CreatedDate;
+import com.scuffed.jsonimporter.model.constant.IdConstants;
 import com.scuffed.jsonimporter.model.enums.InvoiceStatusEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -13,13 +14,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "invoice_number" }))
 public class Invoice {
 	
 	@Id
@@ -34,7 +37,6 @@ public class Invoice {
 	)
 	private Long id;
 	
-	@NotNull
 	private Long invoiceNumber;
 	
 	@NotNull
@@ -115,6 +117,13 @@ public class Invoice {
 		this.patientPermission = patientPermission;
 		this.invoiceNumber = invoiceNumber;
 		this.status = new InvoiceStatus(InvoiceStatusEnum.OPEN, InvoiceStatusEnum.OPEN.getDescription());
+	}
+	
+	@PostPersist
+	private void generateInvoiceNumber() {
+		if(invoiceNumber == null) {
+			invoiceNumber = IdConstants.BASE + id * IdConstants.PROCESS_RESERVE + 1;
+		}
 	}
 	
 	public @NotNull BillingReceipt getBillingReceipt() {

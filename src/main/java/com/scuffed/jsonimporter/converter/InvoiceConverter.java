@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import com.scuffed.jsonimporter.dto.InvoiceDTO;
 import com.scuffed.jsonimporter.model.Invoice;
+import com.scuffed.jsonimporter.model.InvoiceStatus;
+import com.scuffed.jsonimporter.model.enums.InvoiceStatusEnum;
 
 public final class InvoiceConverter {
 	
@@ -21,17 +23,19 @@ public final class InvoiceConverter {
 	}
 	
 	public static List<InvoiceDTO> toDTOs(Collection<Invoice> dtos) {
-		return dtos.stream()
-				   .map(InvoiceConverter::toDTO)
-				   .toList();
+		return dtos.stream().map(InvoiceConverter::toDTO).toList();
 	}
 	
 	public static Invoice toEntity(InvoiceDTO dto) {
-		return new Invoice(dto.customerId(), dto.invoiceNumber(), dto.customerTrackingNumber(), dto.creationDate(), BillingReceiptConverter.toEntity(dto.billingReceipt()),
+		return new Invoice(dto.customerId(),
+						   dto.invoiceNumber(),
+						   dto.customerTrackingNumber(),
+						   new InvoiceStatus(InvoiceStatusEnum.OPEN, InvoiceStatusEnum.OPEN.getDescription()),
+						   dto.creationDate(),
+						   BillingReceiptConverter.toEntity(dto.billingReceipt()),
 						   CostUnitConverter.toEntity(dto.costUnit()),
 						   PatientConverter.toEntity(dto.patient()),
-						   PatientPermissionConverter.toEntity(dto.patientPermission())
-		);
+						   PatientPermissionConverter.toEntity(dto.patientPermission()));
 	}
 	
 	public static List<Invoice> toEntities(Collection<InvoiceDTO> dtos) {
