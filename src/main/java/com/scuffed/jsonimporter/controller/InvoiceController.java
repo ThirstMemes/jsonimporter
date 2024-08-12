@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class InvoiceController {
 	@Tag(name = "Abrechnungen", description = "Ruft den Status einer Abrechnung ab.")
 	@Operation(summary = "Ruft den Status einer Abrechnung ab.")
 	@GetMapping("/invoice/{invoiceNumber}")
-	public ResponseEntity<InvoiceStatus> getInvoiceStatus(@Parameter(name = "invoiceNumber", required = true, in = ParameterIn.QUERY, example = "10000000101") Long id) {
+	public ResponseEntity<InvoiceStatus> getInvoiceStatus(@PathVariable("invoiceNumber") @Parameter(name = "invoiceNumber", required = true, in = ParameterIn.QUERY, example = "10000000101") Long id) {
 		Optional<Invoice> response = invoiceService.checkStatus(id);
 		return response.map(invoice -> ResponseEntity.ok(invoice.getStatus())).orElseGet(() -> ResponseEntity.notFound().build());
 	}
